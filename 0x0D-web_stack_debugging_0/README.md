@@ -29,7 +29,7 @@ Let’s start with a very simple example. My server must:
 Let’s pretend that without these 2 elements, my web application cannot work.
 
 Let’s go through this example and fix the server.
-#######################################################################################################################################
+
 vagrant@vagrant:~$ docker run -d -ti ubuntu:14.04
 Unable to find image 'ubuntu:14.04' locally
 14.04: Pulling from library/ubuntu
@@ -51,16 +51,16 @@ root@76f44c0da25e:/# ls /tmp/
 isworking  passwd
 root@76f44c0da25e:/#
 vagrant@vagrant:~$
-#########################################################################################################################################
+
 Then my answer file would contain:
-######################################################################################################
+
 sylvain@ubuntu:~$ cat answerfile
 #!/usr/bin/env bash
 # Fix my server with these magic 2 lines
 cp /etc/passwd /tmp/
 echo OK > /tmp/isworking
 sylvain@ubuntu:~$
-####################################################################
+
 Note that as you cannot use interactive software such as emacs or vi in your Bash script, everything needs to be done from the command line (including file edition).
 Installing Docker
 
