@@ -1,44 +1,26 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
+# Configure HAProxy
 # Update the system packages
 sudo apt update
 
 # Install HAProxy
 sudo apt-get install -y haproxy
 
-# Enable HAProxy service
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
-# Configure HAProxy
-cat <<EOT | sudo tee /etc/haproxy/haproxy.cfg
-global
-    log /dev/log local0
-    log /dev/log local1 notice
-    user haproxy
-    group haproxy
-    maxconn 4096
+cat <<EOT | sudo tee -a /etc/haproxy/haproxy.cfg
+frontend imrane.tech
+    timeout client  30000
+    bind 0:80
+    default_backend imrane.tech_backend
 
-defaults
-    log global
-    mode http
-    option httplog
-    option dontlognull
-    retries 3
-    option redispatch
-    timeout connect 5000
-    timeout client 50000
-    timeout server 50000
-
-frontend http-in
-    bind *:80
-    default_backend imrane.tech
-
-backend imrane.tech
+backend imrane.tech_backend
+    timeout connect  3000
+    timeout server  30000
     balance roundrobin
-    server 385397-web-01 54.205.197.191:80 check
-    server 385397-web-02 54.237.111.59:80 check
+    server 385397-web-01 54.205.197.191 check
+    server 385397-web-02 54.237.111.59 check
 EOT
 
-# Restart HAProxy using systemctl
-sudo systemctl restart haproxy
-
+sudo service haproxy restart
