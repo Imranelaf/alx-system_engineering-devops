@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Update the system packages
 sudo apt update
@@ -41,3 +41,4 @@ EOT
 
 # Restart HAProxy using systemctl
 sudo systemctl restart haproxy
+
