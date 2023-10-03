@@ -1,26 +1,6 @@
 #!/usr/bin/env bash
-
-# Configure HAProxy
-# Update the system packages
+#Double the number of webservers
 sudo apt update
-
-# Install HAProxy
-sudo apt-get install -y haproxy
-
-echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
-
-cat <<EOT | sudo tee -a /etc/haproxy/haproxy.cfg
-frontend imrane.tech
-    timeout client  30000
-    bind 0:80
-    default_backend imrane.tech_backend
-
-backend imrane.tech_backend
-    timeout connect  3000
-    timeout server  30000
-    balance roundrobin
-    server 385397-web-01 54.205.197.191 check
-    server 385397-web-02 54.237.111.59 check
-EOT
-
+sudo apt install haproxy -y
+sudo sh -c 'echo "\nlisten myserver\n\tbind *:80\n\tbalance roundrobin\n\tserver server1 18.207.1.87:80 check\n\tserver server2 52.206.189.175:80 check\n" >> /etc/haproxy/haproxy.cfg'
 sudo service haproxy restart
