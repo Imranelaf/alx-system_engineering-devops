@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This script uses Reddit's API to retrieve 
+This script uses Reddit's API to retrieve
 the top post titles for a given subreddit.
 """
 import requests
@@ -10,11 +10,10 @@ after = None
 def recurse(subreddit, hot_list=[]):
     """
     Recursively retrieve the top ten post titles for a given subreddit.
-    
     :param subreddit: The name of the subreddit to query.
     :param hot_list: A list to store the top post titles.
     :return: A list containing the top post titles,
-             or None if an error occurs.
+        or None if an error occurs.
     """
     global after
     user_agent = {'User-Agent': 'api_advanced-project'}
