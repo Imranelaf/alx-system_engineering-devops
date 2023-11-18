@@ -1,0 +1,38 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By "385397-web-01";
+    root /var/www/html;
+    index index.html index.htm;
+
+    location /airbnb-onepage/ {
+        alias /path/to/AirBnB_clone_v4/web_dynamic/;
+        index index.html index.htm;
+        proxy_pass http://127.0.0.1:5003;
+    }
+
+    location /airbnb-dynamic/ {
+        alias /path/to/AirBnB_clone_v4/web_dynamic/;
+        index index.html index.htm;
+        try_files $uri $uri/ @proxy_to_gunicorn;
+    }
+
+    location @proxy_to_gunicorn {
+        proxy_pass http://127.0.0.1:5003;
+    }
+
+    location /static/ {
+        alias /path/to/AirBnB_clone_v4/web_dynamic/static/;
+    }
+
+    location /api {
+        proxy_pass http://127.0.0.1:5002/api;
+    }
+
+    error_page 404 /my_404.html;
+    location = /my_404.html {
+        root /usr/share/nginx/html;
+        internal;
+    }
+}
+
