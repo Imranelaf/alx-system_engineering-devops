@@ -9,24 +9,14 @@ if [ -z "$gunicorn_pids" ]; then
     exit 1
 fi
 
-# Logging function
-log() {
-    echo "$(date +"%Y-%m-%d %T"): $1"
-}
-
 # Stop old workers gracefully
-log "Stopping old workers gracefully..."
+echo "Stopping old workers gracefully..."
 for pid in $gunicorn_pids; do
-    if kill -HUP "$pid"; then
-        log "Sent HUP signal to $pid"
-    else
-        log "Failed to send HUP signal to $pid"
-    fi
+    kill -HUP "$pid"
 done
 
 # Wait for old workers to finish processing
-wait_duration=5
-log "Waiting for old workers to finish processing for $wait_duration seconds..."
-sleep "$wait_duration"
+echo "Waiting for old workers to finish processing..."
+sleep 5
 
-log "Graceful reload complete"
+echo "Graceful reload complete"
